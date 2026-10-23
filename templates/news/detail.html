@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}{{ post.title }} · AUK Dnipro Campus{% endblock %}
+{% block description %}{{ post.summary|default:post.body|truncatewords:30 }}{% endblock %}
+
+{% block hero %}
+<div class="hero-body">
+    <div class="meta">
+        <span class="tag">{{ post.get_kind_display }}</span>
+        <time datetime="{{ post.published_at|date:'c' }}">{{ post.published_at|date:"j F Y, H:i" }}</time>
+    </div>
+    <h1>{{ post.title }}</h1>
+    {% if post.summary %}<p class="lead">{{ post.summary }}</p>{% endif %}
+</div>
+{% endblock %}
+
+{% block content %}
+<article class="card prose">
+    {% if post.cover %}<img class="cover" src="{{ post.cover.url }}" alt="">{% endif %}
+    {{ post.body|linebreaks }}
+</article>
+<p class="back"><a href="{% url 'news:list' %}">← All news</a></p>
+{% endblock %}

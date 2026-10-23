@@ -1,0 +1,49 @@
+{% load static %}<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+        <title>{% block title %}AUK Dnipro Campus{% endblock %}</title>
+        <meta name="description" content="{% block description %}News, announcements and class schedule of the AUK Dnipro campus.{% endblock %}">
+        <meta property="og:image" content="{% static 'img/og-cover.png' %}">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'css/site.css' %}">
+    </head>
+
+    <body>
+        <header class="hero">
+            <nav class="nav" aria-label="Main">
+                <a class="brand" href="{% url 'home' %}">
+                    <i>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+                             stroke="#0F2460" stroke-width="2.4" stroke-linecap="round" aria-hidden="true">
+                            <rect x="3" y="5" width="18" height="16" rx="3"/>
+                            <path d="M3 10h18M8 3v4M16 3v4"/>
+                        </svg>
+                    </i>
+                    AUK Dnipro Campus
+                </a>
+                {% with name=request.resolver_match.view_name %}
+                <ul>
+                    <li><a href="{% url 'home' %}" {% if name == 'home' %}aria-current="page"{% endif %}>Home</a></li>
+                    <li><a href="{% url 'news:list' %}" {% if name|slice:":5" == 'news:' %}aria-current="page"{% endif %}>News</a></li>
+                    <li><a href="{% url 'about' %}" {% if name == 'about' %}aria-current="page"{% endif %}>About</a></li>
+                </ul>
+                {% endwith %}
+            </nav>
+            {% block hero %}{% endblock %}
+        </header>
+
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+
+        <footer class="site-footer">
+            © {% now "Y" %} AUK Dnipro Campus
+            {% if user.is_staff %} · <a href="{% url 'admin:index' %}">Admin</a>{% endif %}
+        </footer>
+    </body>
+</html>
