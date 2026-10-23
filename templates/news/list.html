@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}News · AUK Dnipro Campus{% endblock %}
+
+{% block hero %}
+<div class="hero-body">
+    <h1>News &amp; announcements</h1>
+    <nav class="tabs" aria-label="Filter">
+        <a href="{% url 'news:list' %}" {% if not kind %}aria-current="true"{% endif %}>All</a>
+        {% for value, label in kinds %}
+            <a href="?kind={{ value }}" {% if kind == value %}aria-current="true"{% endif %}>{{ label }}</a>
+        {% endfor %}
+    </nav>
+</div>
+{% endblock %}
+
+{% block content %}
+<section class="card">
+    {% for post in page %}
+        {% include "news/_card.html" %}
+    {% empty %}
+        <div class="empty"><b>Nothing here yet</b><p>Check back soon.</p></div>
+    {% endfor %}
+</section>
+
+{% if page.has_other_pages %}
+<nav class="pager" aria-label="Pages">
+    {% if page.has_previous %}<a href="?{% if kind %}kind={{ kind }}&amp;{% endif %}page={{ page.previous_page_number }}">← Newer</a>{% endif %}
+    <span>Page {{ page.number }} of {{ page.paginator.num_pages }}</span>
+    {% if page.has_next %}<a href="?{% if kind %}kind={{ kind }}&amp;{% endif %}page={{ page.next_page_number }}">Older →</a>{% endif %}
+</nav>
+{% endif %}
+{% endblock %}

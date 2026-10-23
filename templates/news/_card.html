@@ -1,0 +1,13 @@
+{# One post in a list. Expects `post`. #}
+<article class="post-card">
+    {% if post.cover %}<img src="{{ post.cover.url }}" alt="" loading="lazy">{% endif %}
+    <div>
+        <div class="meta">
+            {% if post.is_pinned %}<span class="tag">Pinned</span>{% endif %}
+            <span class="tag {% if post.kind == 'announcement' %}tag-alert{% endif %}">{{ post.get_kind_display }}</span>
+            <time datetime="{{ post.published_at|date:'c' }}">{{ post.published_at|date:"j M Y" }}</time>
+        </div>
+        <h3><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
+        {% if post.summary %}<p>{{ post.summary }}</p>{% else %}<p>{{ post.body|truncatewords:30 }}</p>{% endif %}
+    </div>
+</article>

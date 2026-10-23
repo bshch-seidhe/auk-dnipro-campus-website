@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block hero %}
+<div class="hero-body">
+    <h1>Campus life,<br>always up to date</h1>
+    <p class="lead">News, announcements and events of the AUK Dnipro campus.</p>
+</div>
+{% endblock %}
+
+{% block content %}
+<section>
+    <div class="section-head">
+        <h2>Latest news</h2>
+        <a href="{% url 'news:list' %}">All news →</a>
+    </div>
+    <div class="card">
+        {% for post in posts %}
+            {% include "news/_card.html" %}
+        {% empty %}
+            <div class="empty"><b>No news yet</b><p>Check back soon.</p></div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}
